@@ -107,6 +107,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   opacity:0;transition:opacity 1.2s ease, transform 1.8s cubic-bezier(.3,.8,.4,1);
 }
 #intro.yaz .parlak{opacity:1;transform:translate(-50%,-50%) scale(1.35)}
+#konfeti{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none}
 
 .intro-word{
   position:absolute;inset:0;z-index:5;
@@ -123,10 +124,13 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
               0 0 110px rgba(143,63,46,.8);
 }
 .intro-word .sub{
-  margin-top:clamp(12px,2vw,20px);
-  font-size:clamp(10px,2.4vw,13px);letter-spacing:.42em;margin-right:-.42em;
-  text-transform:uppercase;color:var(--seftali);
-  text-shadow:0 0 20px rgba(0,0,0,.9);
+  margin-top:clamp(18px,2.8vw,30px);
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(18px,3.6vw,32px);line-height:1.2;
+  letter-spacing:.02em;margin-right:0;text-transform:none;
+  color:#FFE6D6;
+  text-shadow:0 0 20px rgba(232,146,122,.7), 0 0 56px rgba(232,146,122,.4),
+              0 4px 26px rgba(0,0,0,.9);
 }
 #intro.biterken .intro-word{opacity:0;transform:scale(1.16);transition:opacity .8s ease, transform 1.3s ease-in}
 #intro.fade{opacity:0;transition:opacity .8s ease;pointer-events:none}
@@ -236,6 +240,14 @@ h2.big em{font-style:italic;color:var(--mercan)}
 .hero-cap .meta{
   margin-top:12px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;
   color:var(--seftali);text-shadow:0 2px 16px rgba(0,0,0,.9);
+}
+.hero-cap .dilek{
+  margin-top:clamp(10px,1.4vw,16px);
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(20px,3.4vw,34px);line-height:1.15;
+  letter-spacing:.01em;text-transform:none;
+  color:#FFE6D6;
+  text-shadow:0 0 22px rgba(232,146,122,.75), 0 4px 28px rgba(0,0,0,.9);
 }
 /* çiçekli metin kartı — hikâyenin durakları */
 .metin-kart{
@@ -545,7 +557,6 @@ h2.big em{font-style:italic;color:var(--mercan)}
   .dogumgunu{color:var(--seftali);-webkit-text-fill-color:var(--seftali);background:none}
 }
 
-.foot .fs{margin-top:clamp(22px,3vw,32px);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--seftali)}
 .foot .kalp-soz{
   margin-top:26px;font-family:var(--serif);font-style:italic;
   font-size:clamp(17px,2vw,23px);color:var(--metin-2);
@@ -588,7 +599,6 @@ h2.big em{font-style:italic;color:var(--mercan)}
   .unit .l,.yd-grid .yd .l{font-size:12px;letter-spacing:.2em}
   .place-note dt,.yer-etiket i{font-size:11px;letter-spacing:.2em}
   .saka-ust{font-size:11px;letter-spacing:.28em}
-  .hero-cap .meta,.foot .fs{font-size:12px;letter-spacing:.24em}
   .skip{font-size:12px}
 }
 
@@ -604,9 +614,10 @@ h2.big em{font-style:italic;color:var(--mercan)}
 <div id="intro">
   <div id="bahce"></div>
   <div class="parlak"></div>
+  <canvas id="konfeti"></canvas>
   <div class="intro-word">
     <div class="amp" id="introNames">Yağmur</div>
-    <div class="sub">12 Eylül</div>
+    <div class="sub">İyi ki doğdun!</div>
   </div>
   <button class="skip" id="skip">geç</button>
 </div>
@@ -620,6 +631,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
         <img src="img/f3.jpg" alt="Yağmur" style="object-position:center 15%">
         <div class="hero-cap">
           <h1 id="heroNames">Yağmur</h1>
+          <div class="meta dilek">İyi ki doğdun!</div>
         </div>
       </div>
 
@@ -821,7 +833,6 @@ h2.big em{font-style:italic;color:var(--mercan)}
 
       <p class="dogumgunu">DOĞUM GÜNÜN<br><em>KUTLU OLSUN!</em></p>
 
-      <div class="fs">12 Eylül</div>
       <button class="heartbtn" id="heartbtn" aria-label="Kalp gönder" data-kalp></button>
     </div>
   </footer>
@@ -988,6 +999,79 @@ function onYukle(){
   })));
 }
 
+/* ------------------------------------------------------------
+   KONFETI — acilis yazisi belirdiginde, dogum gunu havasi
+   ------------------------------------------------------------ */
+const konfeti = (function(){
+  const c = document.getElementById("konfeti");
+  let x, W, H, dpr, P = [], raf = 0, sonum = 1, sonumluyor = false;
+  /* paletle uyumlu: seftali, krem, kiremit, altin, soluk seftali */
+  const renk = ["#E8927A","#FFF1E6","#8F3F2E","#D9A441","#F5B898"];
+
+  function boyut(){
+    dpr = Math.min(devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    c.width = W * dpr; c.height = H * dpr;
+    x.setTransform(dpr,0,0,dpr,0,0);
+  }
+  function parcacik(ilk){
+    return {
+      x: Math.random()*W,
+      y: ilk ? -Math.random()*H*1.2 - 20 : -20 - Math.random()*80,
+      w: 4 + Math.random()*5,
+      h: 8 + Math.random()*9,
+      hz: .9 + Math.random()*1.6,             /* dusus hizi */
+      sal: 14 + Math.random()*26,             /* yatay salinim genligi */
+      faz: Math.random()*Math.PI*2,
+      vf: .012 + Math.random()*.022,          /* salinim hizi */
+      a: Math.random()*Math.PI*2,
+      va: -.05 + Math.random()*.1,            /* donme */
+      o: .55 + Math.random()*.45,
+      c: renk[(Math.random()*renk.length)|0]
+    };
+  }
+  function tik(){
+    x.clearRect(0,0,W,H);
+    for (let i=0;i<P.length;i++){
+      const p = P[i];
+      p.faz += p.vf; p.a += p.va;
+      p.y += p.hz;
+      const px = p.x + Math.sin(p.faz)*p.sal;
+      if (p.y > H + 24) Object.assign(p, parcacik(false));
+      x.save();
+      x.translate(px, p.y); x.rotate(p.a);
+      x.globalAlpha = p.o * sonum;
+      x.fillStyle = p.c;
+      /* serit gibi dursun diye dikeyde hafif ezilme */
+      x.fillRect(-p.w/2, -p.h/2, p.w, p.h * (.35 + Math.abs(Math.cos(p.faz))*.65));
+      x.restore();
+    }
+    if (sonumluyor){
+      sonum -= .018;
+      if (sonum <= 0){ dur(); return; }
+    }
+    raf = requestAnimationFrame(tik);
+  }
+  function dur(){
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0; P = [];
+    if (x) x.clearRect(0,0,W,H);
+  }
+  return {
+    basla(){
+      if (reduce || raf || !c) return;
+      x = c.getContext("2d");
+      boyut(); addEventListener("resize", boyut);
+      sonum = 1; sonumluyor = false;
+      P = [];
+      for (let i=0;i<110;i++) P.push(parcacik(true));
+      raf = requestAnimationFrame(tik);
+    },
+    bitir(){ if (raf) sonumluyor = true; else dur(); },
+    dur
+  };
+})();
+
 (async function acilis(){
   const intro = document.getElementById("intro");
   const site  = document.getElementById("site");
@@ -998,6 +1082,7 @@ function onYukle(){
     if (acildi) return; acildi = true;
     intro.classList.add("yaz");
     document.querySelectorAll(".cicek").forEach(c=>c.classList.add("git"));
+    konfeti.basla();
   };
   const siteyiGoster = () => {
     site.classList.add("in");
@@ -1006,8 +1091,9 @@ function onYukle(){
   const kapat = () => {
     if (kapandi) return; kapandi = true;
     intro.classList.add("biterken");
+    konfeti.bitir();
     setTimeout(()=>intro.classList.add("fade"), 300);
-    setTimeout(()=>intro.classList.add("gone"), 1200);
+    setTimeout(()=>{ intro.classList.add("gone"); konfeti.dur && konfeti.dur(); }, 1200);
   };
   const gec = () => {
     zamanlar.forEach(clearTimeout);
