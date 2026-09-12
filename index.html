@@ -8,7 +8,7 @@
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0E0A09">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230E0A09'/%3E%3Cpath d='M16 25S6 19 6 12.6C6 9.3 8.6 7 11.4 7c1.8 0 3.4 1 4.2 2.5C16.4 8 18 7 19.8 7 22.6 7 25.2 9.3 25.2 12.6 25.2 19 16 25 16 25Z' fill='none' stroke='%23F0A98D' stroke-width='2'/%3E%3C/svg%3E">
-<title>Yağmur — 14 Eylül 2025</title>
+<title>Yağmur — 12 Eylül 2025</title>
 <style>
 :root{
   /* ---- palet: yuvarlak logodan ---- */
@@ -157,6 +157,7 @@ section{position:relative;z-index:3;padding:clamp(36px,5.2vw,62px) 0}
   display:flex;align-items:center;gap:12px;
   font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--seftali);margin-bottom:20px;
 }
+.eyebrow b{color:var(--mercan);font-weight:700}
 .eyebrow::before{content:"";width:34px;height:1px;background:linear-gradient(90deg,var(--kiremit),var(--mercan))}
 
 h2.big{font-size:clamp(30px,5.2vw,54px);line-height:1.12;letter-spacing:-.01em;color:#FCEDE3}
@@ -611,7 +612,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
   <div class="parlak"></div>
   <div class="intro-word">
     <div class="amp" id="introNames">Yağmur</div>
-    <div class="sub">14 Eylül 2025</div>
+    <div class="sub">12 Eylül 2025</div>
   </div>
   <button class="skip" id="skip">geç</button>
 </div>
@@ -625,7 +626,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
         <img src="img/f3.jpg" alt="Yağmur" style="object-position:center 15%">
         <div class="hero-cap">
           <h1 id="heroNames">Yağmur</h1>
-          <div class="meta">14 Eylül 2025 · Edirne</div>
+          <div class="meta">12 Eylül 2025 · Edirne</div>
         </div>
       </div>
 
@@ -633,9 +634,9 @@ h2.big em{font-style:italic;color:var(--mercan)}
         <div class="metin-kart koyu orta-boy">
           <div class="ust">
             <span class="yaprak" data-yaprak></span>
-            <span class="ne-zaman">14 Eylül 2025</span>
+            <span class="ne-zaman">12 Eylül 2025</span>
           </div>
-          <p>14 Eylül günü, üniversitenin ilk senesinde okulun tam olarak ne zaman açılacağını bilmediğim için sınıf grubuna derslerin başlayıp başlamadığını sormuştum.</p>
+          <p>12 Eylül günü, üniversitenin ilk senesinde okulun tam olarak ne zaman açılacağını bilmediğim için sınıf grubuna derslerin başlayıp başlamadığını sormuştum.</p>
         </div>
         <figure class="cift-foto" style="--tilt:1.6deg">
           <img src="img/f1.jpg" alt="Yağmur" loading="lazy" style="object-position:center 50%" data-buyut>
@@ -685,7 +686,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
   <section id="sayac">
     <div class="wrap">
       <div class="reveal">
-        <div class="eyebrow">14 Eylül 2025 →</div>
+        <div class="eyebrow"><b>Tanıştığımız gün</b> · 14 Eylül 2025 →</div>
       </div>
       <div class="count-grid reveal">
         <div class="unit hero-unit"><div class="n" id="cDays">0</div><div class="l">Gün</div></div>
@@ -701,7 +702,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
 
       <div class="yildonumu reveal" id="yildonumu">
         <div class="yd-ust" id="ydUst">—</div>
-        <div class="yd-baslik" id="ydBaslik">14 Eylül</div>
+        <div class="yd-baslik" id="ydBaslik"><em>Tanıştığımız gün</em><br>14 Eylül</div>
         <div class="yd-grid">
           <div class="yd"><div class="n" id="yGun">0</div><div class="l">Gün</div></div>
           <div class="yd"><div class="n" id="ySaat">0</div><div class="l">Saat</div></div>
@@ -833,7 +834,7 @@ h2.big em{font-style:italic;color:var(--mercan)}
 
       <p class="dogumgunu">DOĞUM GÜNÜN<br><em>KUTLU OLSUN!</em></p>
 
-      <div class="fs">14 Eylül 2025</div>
+      <div class="fs">12 Eylül 2025</div>
       <button class="heartbtn" id="heartbtn" aria-label="Kalp gönder" data-kalp></button>
     </div>
   </footer>
@@ -850,8 +851,10 @@ h2.big em{font-style:italic;color:var(--mercan)}
    ============================================================ */
 const AYAR = {
   isim: "Yağmur",
-  tarih: new Date(2025, 8, 14, 0, 0, 0),   /* 14 Eylül 2025 */
-  tarihYazi: "14 Eylül 2025",
+  /* SAYAÇ tarihi — tanıştığımız gün. Bilerek 14 Eylül'de bırakıldı, değiştirme. */
+  tarih: new Date(2025, 8, 14, 0, 0, 0),   /* 14 Eylül 2025 — sayaç */
+  /* Sekme başlığındaki tarih yazısı (sayaçla ilgisi yok) */
+  tarihYazi: "12 Eylül 2025",
 
   /* Video yolu. null yapılırsa bölüm hiç açılmaz. */
   video: "video/bizim.mp4",
@@ -1039,7 +1042,7 @@ function onYukle(){
 })();
 
 /* ============================================================
-   SAYAÇ — 14 Eylül 2025'ten bugüne
+   SAYAÇ — tanıştığımız günden (14 Eylül 2025) bugüne
    ============================================================ */
 const iki = n => String(n).padStart(2,"0");
 const TR = n => n.toLocaleString("tr-TR");
@@ -1065,7 +1068,7 @@ function sayacGuncelle(){
   return gun;
 }
 
-/* ---- yıl dönümü geri sayımı: her 14 Eylül ---- */
+/* ---- tanıştığımız günün yıl dönümü geri sayımı: her 14 Eylül ---- */
 function yilDonumuGuncelle(){
   const now = new Date();
   const kutu = document.getElementById("yildonumu");
@@ -1074,17 +1077,17 @@ function yilDonumuGuncelle(){
   if (now.getMonth() === 8 && now.getDate() === 14 && now >= AYAR.tarih){
     const kacinci = now.getFullYear() - AYAR.tarih.getFullYear();
     kutu.classList.add("bugun");
-    ydUst.textContent = "Bugün";
+    ydUst.textContent = "Bugün · tanıştığımız gün";
     ydBaslik.innerHTML = kacinci > 0
-      ? `<em>${kacinci}.</em> yıl dönümümüz kutlu olsun.`
-      : `Her şeyin <em>başladığı</em> gün.`;
+      ? `Tanıştığımızın <em>${kacinci}.</em> yılı kutlu olsun.`
+      : `<em>Tanıştığımız</em> gün.`;
     const bitis = new Date(now.getFullYear(), 8, 15, 0, 0, 0);
     const k = bitis - now;
     yGun.textContent  = "0";
     ySaat.textContent = iki(Math.floor(k/3600000) % 24);
     yDak.textContent  = iki(Math.floor(k/60000) % 60);
     ySan.textContent  = iki(Math.floor(k/1000) % 60);
-    ydAlt.textContent = "14 Eylül " + now.getFullYear();
+    ydAlt.textContent = "Tanıştığımız gün · 14 Eylül " + now.getFullYear();
     return;
   }
 
@@ -1095,8 +1098,8 @@ function yilDonumuGuncelle(){
 
   const k = hedef - now;
   const gun = Math.floor(k/86400000);
-  ydUst.textContent = kacinci + ". yıl dönümüne";
-  ydBaslik.innerHTML = `14 Eylül <em>${hedef.getFullYear()}</em>`;
+  ydUst.textContent = "Tanıştığımız günün " + kacinci + ". yıl dönümüne";
+  ydBaslik.innerHTML = `<em>Tanıştığımız gün</em><br>14 Eylül ${hedef.getFullYear()}`;
   yGun.textContent  = TR(gun);
   ySaat.textContent = iki(Math.floor(k/3600000) % 24);
   yDak.textContent  = iki(Math.floor(k/60000) % 60);
