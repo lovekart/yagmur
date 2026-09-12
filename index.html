@@ -517,8 +517,8 @@ h2.big em{font-style:italic;color:var(--mercan)}
 .foot{
   padding:clamp(64px,9vw,110px) 0 76px;text-align:center;position:relative;z-index:3;
   background:
-    radial-gradient(ellipse 74% 120% at 50% 108%, rgba(143,63,46,.32) 0%,
-      rgba(143,63,46,.12) 42%, rgba(14,10,9,0) 78%),
+    radial-gradient(ellipse 78% 124% at 50% 106%, rgba(143,63,46,.42) 0%,
+      rgba(143,63,46,.16) 44%, rgba(14,10,9,0) 80%),
     var(--gece);
 }
 .foot .fh{
@@ -526,7 +526,31 @@ h2.big em{font-style:italic;color:var(--mercan)}
   max-width:22ch;margin:0 auto;color:#FFF3E9;
   text-shadow:0 0 40px rgba(232,146,122,.3);
 }
-.foot .fs{margin-top:18px;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--seftali)}
+/* büyük kutlama satırı */
+.dogumgunu{
+  margin:clamp(38px,6vw,68px) auto 0;max-width:none;
+  font-family:var(--serif);font-weight:400;line-height:1.1;
+  font-size:clamp(34px,6.6vw,74px);letter-spacing:.015em;text-wrap:balance;
+  background:linear-gradient(102deg,
+    var(--seftali) 0%, #FFF3E9 22%, var(--mercan) 48%, var(--altin) 72%, var(--seftali) 100%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 26px rgba(232,146,122,.55))
+         drop-shadow(0 0 70px rgba(143,63,46,.65));
+  animation:parilti 7s ease-in-out infinite alternate;
+}
+.dogumgunu em{font-style:italic;display:inline-block}
+@keyframes parilti{
+  from{background-position:0% 50%}
+  to{background-position:100% 50%}
+}
+/* gradyan metni desteklemeyen tarayıcıda düz renk */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .dogumgunu{color:var(--seftali);-webkit-text-fill-color:var(--seftali);background:none}
+}
+
+.foot .fs{margin-top:clamp(22px,3vw,32px);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--seftali)}
 .foot .kalp-soz{
   margin-top:26px;font-family:var(--serif);font-style:italic;
   font-size:clamp(17px,2vw,23px);color:var(--metin-2);
@@ -807,6 +831,8 @@ h2.big em{font-style:italic;color:var(--mercan)}
         <div class="imza">— Tunca U.</div>
       </div>
 
+      <p class="dogumgunu">DOĞUM GÜNÜN<br><em>KUTLU OLSUN!</em></p>
+
       <div class="fs">14 Eylül 2025</div>
       <button class="heartbtn" id="heartbtn" aria-label="Kalp gönder" data-kalp></button>
     </div>
@@ -834,6 +860,12 @@ const AYAR = {
 
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 document.body.classList.add("locked");
+
+/* Sayfa her açılışta en baştan başlasın: tarayıcı bıraktığın yeri hatırlamasın,
+   geri tuşuyla (bfcache) dönüşte de tepeye alsın. */
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+scrollTo(0, 0);
+addEventListener("pageshow", () => scrollTo(0, 0));
 
 (function(){
   introNames.textContent = AYAR.isim;
